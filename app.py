@@ -37,19 +37,19 @@ movie_list = sorted(movies_df['title'].tolist() + tv_show['title'].tolist())
 
 st.header('Movie Recommendation System')
 
-st.image("movie-png.png", caption="Find Your Next Favorite Movie", width=300)
+st.image("movie-png.png", caption="Best Recommendation By Your Last Watch", width=300)
 
 selected_movie = st.selectbox(
-    "Type or select a movie from the dropdown",
+    "select a movie from the dropdown",
     movie_list
 )
 
 if st.button('Show Recommendation'):
     recommended_movie_names = recommend(selected_movie)
-    st.subheader("Top 10 Recommended Movies")
+    st.subheader("There are your Top 10 Movie")
 
     st.dataframe(
-        data=recommended_movie_names[['title', 'country', 'genres', 'description', 'release_year', 'cast']], 
+        data=recommended_movie_names[['title', 'country', 'genres', 'release_year', 'cast']], 
         height=400
     )
 
@@ -57,7 +57,7 @@ if st.button('Show Recommendation'):
 st.markdown("""
 <style>
     .streamlit-expanderHeader {
-        font-size: 20px;
+        font-size: 50px;
         font-weight: bold;
         color: #F39C12;
     }
