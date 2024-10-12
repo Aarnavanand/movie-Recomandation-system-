@@ -25,7 +25,7 @@ def recommend(title):
         rec_movies = movies_df.iloc[selected_movies_index]
         rec_movies['similarity'] = selected_movies_score
 
-        return rec_movies.reset_index(drop=True)[1:11]  # Skip first row
+        return rec_movies.reset_index(drop=True)[1:11] 
 
     elif title in tv_show['title'].values:
         tv_index = tv_show[tv_show['title'] == title].index.item()
@@ -37,13 +37,12 @@ def recommend(title):
         rec_tv = tv_show.iloc[selected_tv_index]
         rec_tv['similarity'] = selected_tv_score
 
-        return rec_tv.reset_index(drop=True)[1:11]  # Skip first row
+        return rec_tv.reset_index(drop=True)[1:11] 
 
 movie_list = sorted(movies_df['title'].tolist() + tv_show['title'].tolist())
 
-# Streamlit UI
-st.header('Netflix Movie Recommendation System')
-lottie_coding = load_lottiefile("netflix-logo.json")
+st.header('Movie Recommendation System')
+lottie_coding = load_lottiefile("movie-png.png")
 st_lottie(
     lottie_coding,
     speed=1,
@@ -66,7 +65,6 @@ if st.button('Show Recommendation'):
     st.dataframe(data=recommended_movie_names[['title', 'country', 'genres', 'description', 'release_year', 'cast']], 
                  height=400)
 
-# Custom CSS for additional styling
 st.markdown("""
 <style>
     .streamlit-expanderHeader {
