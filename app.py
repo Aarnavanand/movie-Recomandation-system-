@@ -2,13 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import json
-from streamlit_lottie import st_lottie
 
-def load_lottiefile(filepath: str):
-    with open(filepath, "r") as f:
-        return json.load(f)
-
-# Load data
 movies_df = pd.read_csv('movies_df.csv')
 movies_sim = np.load('movies_sim.npz')['m']
 tv_show = pd.read_csv('tv_show.csv')
@@ -42,15 +36,8 @@ def recommend(title):
 movie_list = sorted(movies_df['title'].tolist() + tv_show['title'].tolist())
 
 st.header('Movie Recommendation System')
-lottie_coding = load_lottiefile("movie-png.png")
-st_lottie(
-    lottie_coding,
-    speed=1,
-    reverse=False,
-    loop=True,
-    quality="low",
-    height=220
-)
+
+st.image("movie-png.png", caption="Find Your Next Favorite Movie", width=300)
 
 selected_movie = st.selectbox(
     "Type or select a movie from the dropdown",
@@ -60,10 +47,12 @@ selected_movie = st.selectbox(
 if st.button('Show Recommendation'):
     recommended_movie_names = recommend(selected_movie)
     st.subheader("Top 10 Recommended Movies")
-    
-    # Apply animation to the table
-    st.dataframe(data=recommended_movie_names[['title', 'country', 'genres', 'description', 'release_year', 'cast']], 
-                 height=400)
+
+    st.dataframe(
+        data=recommended_movie_names[['title', 'country', 'genres', 'description', 'release_year', 'cast']], 
+        height=400
+    )
+
 
 st.markdown("""
 <style>
