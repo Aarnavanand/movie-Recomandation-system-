@@ -5,7 +5,7 @@ import json
 from PIL import Image
 import requests
 
-# Load data (replace with your file paths)
+# Load data (Replace with your actual file paths)
 movies_df = pd.read_csv('movies_df.csv')
 movies_sim = np.load('movies_sim.npz')['m']
 tv_show = pd.read_csv('tv_show.csv')
@@ -37,7 +37,7 @@ def recommend(title):
 
         return rec_tv.reset_index(drop=True)[1:11]
 
-# Load movie poster function (replace with your TMDb API key)
+# Load movie poster function (Replace with your actual TMDb API key)
 def get_poster_path(movie_title):
     api_key = "YOUR_TMDb_API_KEY"  # Replace with your actual TMDb API key
     base_url = "https://image.tmdb.org/t/p/w500/"
@@ -93,3 +93,51 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
+# Main page
+st.title("🏆 Movie Recommendation System")
+
+# Hero section with image
+col1, col2 = st.columns([1, 2])
+with col1:
+    st.image("movie-png.png", caption="Best Recommendation By Your Last Watch", width=200)
+with col2:
+    st.subheader("Find your next favorite movie!")
+
+# Search bar
+search_term = st.text_input("Search for a movie:")
+filtered_movies = [movie for movie in movies_df['title'].tolist() + tv_show['title'].tolist() if search_term.lower() in movie.lower()]
+
+# Selectbox with placeholder
+selected_movie = st.selectbox(
+    "Select a movie",
+    ["Select a movie"] + filtered_movies
+)
+
+# Button with animation
+if st.button("Show Recommendations", key="recommend_button"):
+    if selected_movie == "Select a movie":
+        st.warning("Please select a movie.")
+    else:
+        with st.spinner("Generating recommendations..."):
+            try:
+                recommended_movies = recommend(selected_movie)
+            except ValueError:
+                st.error(f"No recommendations found for '{selected_movie}'. Please try another movie.")
+                return
+
+        st.subheader("Top 10 Recommendations")
+
+        # Display recommendations in card layout
+        cols = st.columns(5)
+        for i, movie in enumerate(recommended_movies.iterrows()):
+            with cols[i % 5]:
+                st.markdown(f"<div class='movie-card'>", unsafe_allow_html=True)
+                st.markdown(f"<div class='movie-title'>{movie[1]['title']}</div>", unsafe_allow_html=True)
+                poster_path = get_poster_path(movie[1]['title'])
+                if poster_path:
+                    poster = Image.open(requests.get(poster_path, stream=True).raw)
+                    st.image(poster, classes=['movie-poster'])
+                st.write(f"**Genre:** {movie[1]['genres']}")
+                st.write(f"**Release Year:** {movie[1]['release_year']}")
+                st.markdown(f"</div>", unsafe_allow_html=True)
