@@ -58,7 +58,7 @@ if st.button('Show Recommendation'):
     recommended_movie_names = recommend(selected_movie)
     st.subheader("Here are your Top 10 Movies")
 
-    # Display recommendations in a table format
+    # Display recommendations in a table format with horizontal scrolling
     st.dataframe(
         data=recommended_movie_names[['title', 'country', 'genres', 'release_year', 'cast']], 
         height=450,  # Height of the DataFrame
@@ -76,6 +76,7 @@ st.markdown("""
         background-color: #333333; /* Dark table background */
         color: #FFFFFF; /* White text in table */
         border-radius: 10px; /* Rounded corners */
+        overflow-x: auto; /* Enable horizontal scrolling */
     }
     .stDataFrame th {
         background-color: #E50914; /* Netflix red for header */
