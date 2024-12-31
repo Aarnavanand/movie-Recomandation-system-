@@ -56,19 +56,12 @@ if st.button('Show Recommendation'):
     recommended_movie_names = recommend(selected_movie)
     st.subheader("Here are your Top 10 Movies")
 
-    # Display recommendations in a card layout
-    cols = st.columns(5)
-    for i, movie in enumerate(recommended_movie_names.iterrows()):
-        with cols[i % 5]:
-            st.markdown(f"""
-            <div class="movie-card">
-                <h3>{movie[1]['title']}</h3>
-                <p><strong>Country:</strong> {movie[1]['country']}</p>
-                <p><strong>Genres:</strong> {movie[1]['genres']}</p>
-                <p><strong>Release Year:</strong> {movie[1]['release_year']}</p>
-                <p><strong>Cast:</strong> {movie[1]['cast']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+    # Display recommendations in a table format
+    st.dataframe(
+        data=recommended_movie_names[['title', 'country', 'genres', 'release_year', 'cast']], 
+        height=450,  # Height of the DataFrame
+        use_container_width=True  # Use the full width of the container
+    )
 
 # Custom CSS for styling
 st.markdown("""
@@ -77,34 +70,21 @@ st.markdown("""
         background-color: #141414; /* Dark background */
         color: #FFFFFF; /* White text */
     }
-    .movie-card {
-        background-color: #333333; /* Dark card background */
-        border-radius: 10px;
-        padding: 15px;
-        margin: 10px;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-        height: 300px; /* Fixed height for uniformity */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    .stDataFrame {
+        background-color: #333333; /* Dark table background */
+        color: #FFFFFF; /* White text in table */
+        border-radius: 10px; /* Rounded corners */
     }
-    .movie-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+    .stDataFrame th {
+        background-color: #E50914; /* Netflix red for header */
+        color: white; /* White text for header */
     }
-    .stButton {
-        background-color: #E50914; /* Netflix red */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
+    .stDataFrame td {
+        background-color: #333333; /* Dark background for table cells */
+        color: #FFFFFF; /* White text for table cells */
     }
-    .stButton:hover {
-        background-color: #B00710; /* Darker red on hover */
+    .stDataFrame tr:hover {
+        background-color: #444444; /* Slightly lighter on hover */
     }
 </style>
 """, unsafe_allow_html=True)
