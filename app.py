@@ -124,20 +124,19 @@ if st.button("Show Recommendations", key="recommend_button"):
                 recommended_movies = recommend(selected_movie)
             except ValueError:
                 st.error(f"No recommendations found for '{selected_movie}'. Please try another movie.")
-                return
+            else:  # This 'else' block executes only if the 'try' block succeeds
+                st.subheader("Top 10 Recommendations")
 
-        st.subheader("Top 10 Recommendations")
-
-        # Display recommendations in card layout
-        cols = st.columns(5)
-        for i, movie in enumerate(recommended_movies.iterrows()):
-            with cols[i % 5]:
-                st.markdown(f"<div class='movie-card'>", unsafe_allow_html=True)
-                st.markdown(f"<div class='movie-title'>{movie[1]['title']}</div>", unsafe_allow_html=True)
-                poster_path = get_poster_path(movie[1]['title'])
-                if poster_path:
-                    poster = Image.open(requests.get(poster_path, stream=True).raw)
-                    st.image(poster, classes=['movie-poster'])
-                st.write(f"**Genre:** {movie[1]['genres']}")
-                st.write(f"**Release Year:** {movie[1]['release_year']}")
-                st.markdown(f"</div>", unsafe_allow_html=True)
+                # Display recommendations in card layout
+                cols = st.columns(5)
+                for i, movie in enumerate(recommended_movies.iterrows()):
+                    with cols[i % 5]:
+                        st.markdown(f"<div class='movie-card'>", unsafe_allow_html=True)
+                        st.markdown(f"<div class='movie-title'>{movie[1]['title']}</div>", unsafe_allow_html=True)
+                        poster_path = get_poster_path(movie[1]['title'])
+                        if poster_path:
+                            poster = Image.open(requests.get(poster_path, stream=True).raw)
+                            st.image(poster, classes=['movie-poster'])
+                        st.write(f"**Genre:** {movie[1]['genres']}")
+                        st.write(f"**Release Year:** {movie[1]['release_year']}")
+                        st.markdown(f"</div>", unsafe_allow_html=True)
