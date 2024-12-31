@@ -60,7 +60,7 @@ if st.button('Show Recommendation'):
     # Display recommendations in a larger DataFrame
     st.dataframe(
         data=recommended_movie_names[['title', 'country', 'genres', 'release_year', 'cast']], 
-        height=600  # Increased height
+        height=450  # Increased height
     )
 
 # Custom CSS for styling
