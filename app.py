@@ -43,9 +43,8 @@ st.set_page_config(page_title="🎬 Movie Recommendation System", layout="wide")
 st.markdown("<h1 style='text-align: center; color: #E50914;'>🎬 Movie Recommendation System</h1>", unsafe_allow_html=True)
 
 # Centered image using columns
-col1, col2, col3 = st.columns([1, 2, 1])  # Create three columns
-with col2:  # Use the middle column for the image
-    st.image("movie-system.jpg", caption="Best Recommendation By Your Last Watch", width=600)  # Increased width
+col1, col2, col3 = st.columns([1, 2, 1]) 
+with col2:st.image("movie-system.jpg", caption="Best Recommendation By Your Last Watch", width=600)  # Increased width
 
 # Selectbox for movie selection
 selected_movie = st.selectbox(
@@ -58,11 +57,10 @@ if st.button('Show Recommendation'):
     recommended_movie_names = recommend(selected_movie)
     st.subheader("Here are your Top 10 Movies")
 
-    # Display recommendations in a table format with horizontal scrolling
+    # Display recommendations in a table format
     st.dataframe(
         data=recommended_movie_names[['title', 'country', 'genres', 'release_year', 'cast']], 
-        height=450,  # Height of the DataFrame
-        use_container_width=True  # Use the full width of the container
+        height=400
     )
 
 # Custom CSS for styling
@@ -76,7 +74,6 @@ st.markdown("""
         background-color: #333333; /* Dark table background */
         color: #FFFFFF; /* White text in table */
         border-radius: 10px; /* Rounded corners */
-        overflow-x: auto; /* Enable horizontal scrolling */
     }
     .stDataFrame th {
         background-color: #E50914; /* Netflix red for header */
