@@ -42,8 +42,8 @@ st.set_page_config(page_title="🎬 Movie Recommendation System", layout="wide")
 # Header
 st.markdown("<h1 style='text-align: center; color: #E50914;'>🎬 Movie Recommendation System</h1>", unsafe_allow_html=True)
 
-# Image with increased size
-st.image("movie-system.jpg", caption="Best Recommendation By Your Last Watch", width=600)  # Increased width
+# Centered image
+st.markdown("<div style='text-align: center;'><img src='movie-system.jpg' alt='Movie System' width='600'></div>", unsafe_allow_html=True)
 
 # Selectbox for movie selection
 selected_movie = st.selectbox(
