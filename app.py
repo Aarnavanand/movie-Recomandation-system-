@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import json
 
 # Load data
 movies_df = pd.read_csv('movies_df.csv')
@@ -41,7 +40,7 @@ movie_list = sorted(movies_df['title'].tolist() + tv_show['title'].tolist())
 st.set_page_config(page_title="🎬 Movie Recommendation System", layout="wide")
 
 # Header
-st.header('🎬 Movie Recommendation System')
+st.markdown("<h1 style='text-align: center; color: #E50914;'>🎬 Movie Recommendation System</h1>", unsafe_allow_html=True)
 
 # Image with increased size
 st.image("movie-system.jpg", caption="Best Recommendation By Your Last Watch", width=600)  # Increased width
@@ -57,31 +56,55 @@ if st.button('Show Recommendation'):
     recommended_movie_names = recommend(selected_movie)
     st.subheader("Here are your Top 10 Movies")
 
-    # Display recommendations in a larger DataFrame
-    st.dataframe(
-        data=recommended_movie_names[['title', 'country', 'genres', 'release_year', 'cast']], 
-        height=450  # Increased height
-    )
+    # Display recommendations in a card layout
+    cols = st.columns(5)
+    for i, movie in enumerate(recommended_movie_names.iterrows()):
+        with cols[i % 5]:
+            st.markdown(f"""
+            <div class="movie-card">
+                <h3>{movie[1]['title']}</h3>
+                <p><strong>Country:</strong> {movie[1]['country']}</p>
+                <p><strong>Genres:</strong> {movie[1]['genres']}</p>
+                <p><strong>Release Year:</strong> {movie[1]['release_year']}</p>
+                <p><strong>Cast:</strong> {movie[1]['cast']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
 # Custom CSS for styling
 st.markdown("""
 <style>
-    .streamlit-expanderHeader {
-        font-size: 50px;
-        font-weight: bold;
-        color: #F39C12;
+    body {
+        background-color: #141414; /* Dark background */
+        color: #FFFFFF; /* White text */
     }
-    .stDataFrame {
-        animation: fadeIn 0.5s;
-        font-size: 18px;  /* Increase font size in the DataFrame */
+    .movie-card {
+        background-color: #333333; /* Dark card background */
+        border-radius: 10px;
+        padding: 15px;
+        margin: 10px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        height: 300px; /* Fixed height for uniformity */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
+    .movie-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+    }
+    .stButton {
+        background-color: #E50914; /* Netflix red */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .stButton:hover {
+        background-color: #B00710; /* Darker red on hover */
     }
 </style>
 """, unsafe_allow_html=True)
