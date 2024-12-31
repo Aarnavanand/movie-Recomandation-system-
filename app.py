@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import json
 
+# Load data
 movies_df = pd.read_csv('movies_df.csv')
 movies_sim = np.load('movies_sim.npz')['m']
 tv_show = pd.read_csv('tv_show.csv')
@@ -33,27 +34,36 @@ def recommend(title):
 
         return rec_tv.reset_index(drop=True)[1:11] 
 
+# Combine movie and TV show titles
 movie_list = sorted(movies_df['title'].tolist() + tv_show['title'].tolist())
 
-st.header('Movie Recommendation System')
+# Set up Streamlit page
+st.set_page_config(page_title="🎬 Movie Recommendation System", layout="wide")
 
-st.image("movie-system.jpg", caption="Best Recommendation By Your Last Watch", width=300)
+# Header
+st.header('🎬 Movie Recommendation System')
 
+# Image with increased size
+st.image("movie-system.jpg", caption="Best Recommendation By Your Last Watch", width=600)  # Increased width
+
+# Selectbox for movie selection
 selected_movie = st.selectbox(
-    "select a movie from the dropdown",
+    "Select a movie from the dropdown",
     movie_list
 )
 
+# Button to show recommendations
 if st.button('Show Recommendation'):
     recommended_movie_names = recommend(selected_movie)
-    st.subheader("There are your Top 10 Movie")
+    st.subheader("Here are your Top 10 Movies")
 
+    # Display recommendations in a larger DataFrame
     st.dataframe(
         data=recommended_movie_names[['title', 'country', 'genres', 'release_year', 'cast']], 
-        height=400
+        height=600  # Increased height
     )
 
-
+# Custom CSS for styling
 st.markdown("""
 <style>
     .streamlit-expanderHeader {
@@ -63,6 +73,7 @@ st.markdown("""
     }
     .stDataFrame {
         animation: fadeIn 0.5s;
+        font-size: 18px;  /* Increase font size in the DataFrame */
     }
     @keyframes fadeIn {
         from {
