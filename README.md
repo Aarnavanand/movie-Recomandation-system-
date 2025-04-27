@@ -37,3 +37,6 @@ Run the Application
 streamlit run app.py
 ```
 Live: https://arnavanand.streamlit.app/
+
+📜 License
+This project is licensed under the MIT License.
